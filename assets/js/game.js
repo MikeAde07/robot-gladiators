@@ -13,14 +13,21 @@ var randomNumber = function(min, max) {
 
 var fight = function(enemy) {
 
-    //repeat and execute as long as the enemy-robot is alive
-    while(playerInfo.health > 0 && enemy.health > 0) {
-        
-    if(fightOrSkip()) {
-        // if true, leave fight by breaking loop
-        break;
+    // keep track of who goes first
+    var isPlayerTurn = true;
+    if(Math.random() > 0.5) {
+        isPlayerTurn = false;
     }
 
+    //repeat and execute as long as the enemy-robot is alive
+    while(playerInfo.health > 0 && enemy.health > 0) {
+        if(isPlayerTurn) {
+            //ask player if they'd like to fight or skip using fightOrSkip function
+            if(fightOrSkip()) {
+                // if true, leave fight by breaking loop
+                break;
+            }
+        
         // generate random damage value based on player's attack power
         var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
 
@@ -42,6 +49,8 @@ var fight = function(enemy) {
     else {
         window.alert(enemy.name + " still has " + enemy.health + " health left."); 
     }
+    //player gets attacked first
+} else {
 
     // generate random damage value based on enemy's attack power
     var damage = randomNumber(enemy.attack - 3, enemy.attack);
@@ -60,7 +69,9 @@ var fight = function(enemy) {
     else {
         window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
     }
-
+    }
+    // swtich turn order for next round
+    isPlayerTurn = !isPlayerTurn;
 }    //end of while loop
     
 }; //end of fight function
